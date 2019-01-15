@@ -7,21 +7,33 @@
 	//echo json_encode($usuarios);
 
 	//Carrega um usuário
-	$root = new Usuario();
-	$root->loadById(7);
-	echo $root."<hr>";
+	//$root = new Usuario();
+	//$root->loadById(7);
+	//echo $root."<hr>";
 
 	//Carrega lista com todos os usuários
-	$lista = Usuario::getList();
-	echo json_encode($lista)."<hr>";
+	//$lista = Usuario::getList();
+	//echo json_encode($lista)."<hr>";
 
 	//Carrega uma lista buscando pelo login
-	$search = Usuario::search("o");
-	echo json_encode($search)."<hr>";
+	//$search = Usuario::search("o");
+	//echo json_encode($search)."<hr>";
 
 	//Carrega usuario usando login e senha
+	//$usuario = new Usuario();
+	//$usuario->login("root","@rr0ba");
+	//echo $usuario."<hr>";
+
+	//Criando um novo usuario
+	//$aluno = new Usuario("aluno", "@lun0");
+	//$aluno->insert();
+	//echo $aluno;
+
 	$usuario = new Usuario();
-	$usuario->login("root","@rr0ba");
+	$usuario->loadById(24);
+
+	$usuario->update("professor", "asnxiau");
+
 	echo $usuario;
 
  ?>

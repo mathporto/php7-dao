@@ -94,12 +94,8 @@
 
 			if(count($result) > 0){
 
-				$row = $result[0];
+				$this->setData($result[0]);
 
-				$this->setIdusuario($row['idusuario']);
-				$this->setDeslogin($row['deslogin']);
-				$this->setDesenha($row['desenha']);
-				$this->setDtcadastro(new DateTime($row['dtcadastro']));
 			}else{
 
 				throw new Exception("Login ou senha incorretos", 1);
@@ -109,6 +105,54 @@
 
 
 		}
+
+		public function setData($data){
+
+			$this->setIdusuario($data['idusuario']);
+			$this->setDeslogin($data['deslogin']);
+			$this->setDesenha($data['desenha']);
+			$this->setDtcadastro(new DateTime($data['dtcadastro']));
+
+		}
+
+		public function insert(){
+
+			$sql = new Sql();
+
+			$results = $sql->select("CALL sp_usuarios_insert(:LOGIN, :PASSWORD)", array(
+				':LOGIN'=>$this->getDeslogin(),
+				':PASSWORD'=>$this->getDesenha()
+			));
+
+			if(count($results) > 0){
+
+				$this->setData($results[0]);
+
+			}
+
+		}
+		public function update($login, $password){
+			
+			$this->setDeslogin($login);
+			$this->setDesenha($password);
+
+			$sql = new Sql();
+
+			$sql->query("UPDATE tb_usuarios SET deslogin = :LOGIN, desenha = :PASSWORD WHERE idusuario = :ID", array(
+				':LOGIN'=>$this->getDeslogin(),
+				':PASSWORD'=>$this->getDesenha(),
+				':ID'=>$this->getIdusuario()
+			));
+
+
+		}
+		public function __construct($login = "", $password = ""){
+
+			$this->setDeslogin($login);
+			$this->setDesenha($password);
+
+		}
+
 		public function __toString(){
 
 			return json_encode(array(
